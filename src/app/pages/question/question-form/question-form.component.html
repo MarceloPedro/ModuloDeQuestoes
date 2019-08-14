@@ -1,81 +1,107 @@
-<app-breadcrumb
-    [listaDeItens]="[
-        {
-            name: 'Questões', link: '/questions', title: 'Lista de questões'
-        },
-        {
-            name: 'Formulário de questão', link:'', title: 'Formulário de questão'
-        }
-    ]"
-></app-breadcrumb>
+<button type="button" class="btn btn-success" (click)="openModal(template)">+ Adicionar Questão</button>
 
-<div class="mb-3">
-    <span class="h2">Formulário de questão</span>
-    <button [routerLink]="['/questions']" type="button" class="btn btn-outline-primary float-right"><< Voltar</button>
-</div>
 
-<div class="card">
-
-    <div class="card-header">
-        <small>Dados da questão</small>
+<ng-template #template>
+  
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Cadastrar Questão</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
-    <div class="card-body">
+    <div class="modal-body">
+        <form [formGroup]="resourceForm" (submit)="cadastro()" >
+
+            <div class="form-group">
+              <label for="name" class="col-form-label">Nome</label>
+              <input formControlName="name" [class.is-valid]="isTouchedAndValid('name')" [class.is-invalid]="isInvalidAndTouched('name')"
+                type="text" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+              <label for="points" class="col-form-label">Pontos</label>
+              <input formControlName="points" [class.is-valid]="isTouchedAndValid('points')" [class.is-invalid]="isInvalidAndTouched('points')"
+                type="number" class="form-control" id="points">
+            </div>
         
-        <form [formGroup]="resourceForm" (submit)="submitForm()">
-
             <div class="form-group">
-                <label for="title">Titulo</label>
-                <input formControlName="title" [class.is-valid]="isTouchedAndValid('title')" [class.is-invalid]="isInvalidAndTouched('title')"
-                    id="title" type="text" class="form-control" placeholder="Digite o titulo">
-            </div>
-            <div class="form-group">
-                <label for="description">Descreva a pergunta</label>
-                <textarea formControlName="description" [class.is-valid]="isTouchedAndValid('description')" [class.is-invalid]="isInvalidAndTouched('description')"
-                    id="description" cols="20" rows="5" class="form-control" placeholder="Descreva a pergunta da questão"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="response">Resposta</label>
-                <input formControlName="response" [class.is-valid]="isTouchedAndValid('response')" [class.is-invalid]="isInvalidAndTouched('response')"
-                     type="text" id="response" class="form-control" placeholder="Digite a resposta da questão">
-            </div>
-            <div class="form-group">
-                <label for="options">Opções</label>
-                <input formControlName="options" [class.is-valid]="isTouchedAndValid('options')" [class.is-invalid]="isInvalidAndTouched('options')"
-                    type="text" id="options" class="form-control" placeholder="Digite as opções da pergunta, separe por , (vírgula)">
-            </div>
-            <div class="form-group">
-                <label for="points">Pontos</label>
-                <input formControlName="points" [class.is-valid]="isTouchedAndValid('points')" [class.is-invalid]="isInvalidAndTouched('points')"
-                    type="text" id="points" class="form-control" placeholder="Número de pontos para está questão">
-            </div>
-            <div class="form-group">
-                <label for="category">Categoria</label>
-                <select formControlName="category_id" [class.is-valid]="isTouchedAndValid('category_id')" [class.is-invalid]="isInvalidAndTouched('category_id')"
-                        id="category" class="form-control">
-                        <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="type">Tipo de resposta</label>
-                <select formControlName="type_id" [class.is-valid]="isTouchedAndValid('type_id')" [class.is-invalid]="isInvalidAndTouched('type_id')"
+                <label for="type" class="col-form-label">Tipo de questão</label>
+                <select formControlName="type" [class.is-valid]="isTouchedAndValid('type')" [class.is-invalid]="isInvalidAndTouched('type')"
                     id="type" class="form-control">
-                    <option *ngFor="let type of typesResponse$ | async" [value]="type.id">{{type.name}}</option>
+                    <option *ngFor="let type of types" [value]="type">{{type}}</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="quiz">Questionário</label>
-                <select formControlName="quiz_id" [class.is-valid]="isTouchedAndValid('quiz_id')" [class.is-invalid]="isInvalidAndTouched('quiz_id')"
-                    id="quiz" class="form-control">
-                    <option *ngFor="let quiz of quizzes$ | async" [value]="quiz.id">{{quiz.title}}</option>
+            
+              <div *ngIf="resourceForm.get('type').value == 'Múltipla Escolha'" class="form-group">
+                <input formControlName="response" *ngFor="let response of responses" [value]="response" type="text" class="form-control mt-1" placeholder="Digite a resposta">
+                <input formControlName="multi" type="text" class="form-control mr-4 mt-1" placeholder="Primeira resposta">
+                <button (click)="pushResponse(resourceForm.get('multi').value)" type="button" class="btn btn-primary mt-2">+ Adicionar Mais Respostas</button>
+              </div>
+        
+              <div *ngIf="resourceForm.get('type').value == 'Seleção'" class="form-group">
+                <label for="select">Seleção</label>
+                <select formControlName="response" id="select" class="form-control">
+                    <option value="true">Verdadeiro</option>
+                    <option value="false">Falso</option>
                 </select>
-            </div>
-            <div class="form-group">
-                <button [disabled]="resourceForm.invalid" type="submit" class="btn btn-success float-right">Enviar</button>
-            </div>
-
-        </form>
-
+              </div>
+        
+              <div *ngIf="resourceForm.get('type').value == 'Avaliação com Estrelas'" class="form-group">
+                <label for="multi-option">Avaliação com Estrelas</label>
+                <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-10">
+                        <div class="form-check">
+                          <input formControlName="response" class="form-check-input" type="radio" id="gridRadios1" value="1">
+                          <label class="form-check-label" for="gridRadios1">
+                              <i class="fas fa-star"></i>
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input formControlName="response" class="form-check-input" type="radio" id="gridRadios2" value="2">
+                          <label class="form-check-label" for="gridRadios2">
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input formControlName="response" class="form-check-input" type="radio" id="gridRadios3" value="3">
+                          <label class="form-check-label" for="gridRadios3">
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input formControlName="response" class="form-check-input" type="radio" id="gridRadios3" value="4">
+                          <label class="form-check-label" for="gridRadios3">
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input formControlName="response" class="form-check-input" type="radio" id="gridRadios3" value="5">
+                          <label class="form-check-label" for="gridRadios3">
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button (click)="decline()" type="button" class="btn btn-outline-danger mr-2">Cancelar</button>
+                  <button [disabled]="resourceForm.invalid" type="submit" class="btn btn-success">Enviar</button>
+              </div>
+          </form>
     </div>
 
-</div>
+</ng-template>
+
+

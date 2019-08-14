@@ -26,48 +26,17 @@ export class QuestionService extends BaseResourceService<Question> {
   }
 
 
-  create(question: Question): Observable<Question>{
-    return this.quizService.getById(question.quiz_id)
+ /* create(question: Question): Observable<Question>{
+    return this.categoryService.getById(question.category_id)
       .pipe(
-        flatMap(quiz => {
-          question.quiz = quiz
-            return this.typesResponseService.getById(question.type_id)
-            .pipe(
-              flatMap(type => {
-                question.type = type
-                return this.categoryService.getById(question.category_id)
-              })).pipe(
-                flatMap(category => {
-                  question.category = category
-                  return super.create(question)
-                })
-              )
-                
-              })
+        flatMap(category => {
+          question.category = category
+            return super.create(question)                
+          })
       )
-  }
+  }*/
 
-  update(question: Question): Observable<Question>{
-    return this.quizService.getById(question.quiz_id)
-      .pipe(
-        flatMap(quiz => {
-          question.quiz = quiz
-            return this.typesResponseService.getById(question.type_id)
-            .pipe(
-              flatMap(type => {
-                question.type = type
-                return this.categoryService.getById(question.category_id)
-              })).pipe(
-                flatMap(category => {
-                  question.category = category
-                  return super.update(question)
-                })
-              )
-                
-              })
-      )
-  }
-
+ 
 
 
 }

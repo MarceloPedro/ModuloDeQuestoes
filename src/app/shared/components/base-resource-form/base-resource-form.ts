@@ -13,7 +13,6 @@ import { BaseResourceService } from '../../services/base-resource-service';
 export abstract class BaseResourceForm <T extends BaseResourceModel> implements OnInit {
 
   resourceForm: FormGroup;
-  //resource: Category = new Category();
   setAction: string;
 
   formBuilder: FormBuilder;
@@ -114,7 +113,10 @@ export abstract class BaseResourceForm <T extends BaseResourceModel> implements 
 
   protected actionForSuccess(msg: string, url: string[]){
     this.toastr.success(msg);
-    this.router.navigate(url);
+    if(url != null){
+
+      this.router.navigate(url);
+    }
   }
 
   protected actionForError(msg: string){

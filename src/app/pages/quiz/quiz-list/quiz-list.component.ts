@@ -20,5 +20,12 @@ export class QuizListComponent extends BaseResourceList<Quiz> implements OnInit 
     )
    }
 
+   ngOnInit(){
+     this.quizService.getAll().subscribe(
+       dados => console.log(dados)
+       
+     )
+     super.ngOnInit();
+   }
 
 }

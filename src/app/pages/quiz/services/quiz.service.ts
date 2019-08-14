@@ -21,5 +21,25 @@ export class QuizService extends BaseResourceService<Quiz> {
     )
   }
 
+  create(quiz: Quiz): Observable<Quiz>{
+    return this.categoryService.getById(quiz.category_id)
+      .pipe(
+        flatMap(category => {
+          quiz.category = category
+            return super.create(quiz)                
+          })
+      )
+  }
+
+
+  update(quiz: Quiz): Observable<Quiz>{
+    return this.categoryService.getById(quiz.category_id)
+      .pipe(
+        flatMap(category => {
+          quiz.category = category
+            return super.update(quiz)                
+          })
+      )
+  }
 
 }

@@ -9,27 +9,21 @@ import { TypesResponse } from '../shared/models/types-response';
 export class ApiService implements InMemoryDbService{
     createDb(){
         let categories: Category[] = [
-            {id: 1, name: 'Questão 1', description: 'Questão a ser discutida 1'},
-            {id: 2, name: 'Questão 2', description: 'Questão a ser discutida 2'}
+            {id: 1, name: 'Matemática', description: 'Prova de Matemática'},
+            {id: 2, name: 'Português', description: 'Prova de Português'}
+        ];
+        
+        let questions: Question[] = [
+            {id: 1, name:'Nome', response: ['Vaca'], points: 10, type: 'seleção'},
+            {id: 2, name:'Nome 2', response: ['Vaca 2'], points: 10, type: 'seleção'}
+                 
         ];
 
         let quizzes: Quiz[] = [
-            {id: 1, title: 'Animais'},
-            {id: 2, title: 'Tecnologias'}
-        ];
+            {id: 1, title: 'Animais', category_id: categories[0].id, category: categories[0], questions: [questions[0], questions[1]]},
 
-        let types_response: TypesResponse[] = [
-            {id: 1, name: 'Múltipla escolha'},
-            {id: 2, name: 'Seleção'},
-            {id: 3, name: 'Avaliação com estrelas'}
-        ];
-
-        let questions: Question[] = [
-            {id: 1, title:'Nome', description: 'qual o animal que faz mu?', response: 'Vaca', options: ['Tigre', 'Rato', 'Gato'],  points: 10, type_id: types_response[0].id,
-                type: types_response[0], quiz_id: quizzes[0].id, quiz: quizzes[0], category_id: categories[0].id, category: categories[0]}
         ];
         
-
-        return {categories, quizzes, questions, types_response}
+        return {categories, quizzes, questions}
     }
 }

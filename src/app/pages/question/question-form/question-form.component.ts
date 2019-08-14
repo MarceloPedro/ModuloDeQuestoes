@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs';
@@ -13,6 +13,7 @@ import { TypesResponse } from 'src/app/shared/models/types-response';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category';
 import { catchError } from 'rxjs/operators';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-question-form',
@@ -21,61 +22,90 @@ import { catchError } from 'rxjs/operators';
 })
 export class QuestionFormComponent extends BaseResourceForm<Question> implements OnInit {
 
-  quizzes$:Observable<Quiz[]>;
-  typesResponse$:Observable<TypesResponse[]>;
-  categories$:Observable<Category[]>;
+  modalRef: BsModalRef;
+  questions: Question;
+  @Output() eventQuestion = new EventEmitter();
+
+  types: string[] = ['Múltipla Escolha', 'Seleção', 'Avaliação com Estrelas'];
+  responses: string[] = [];
 
   constructor(
     protected questionService: QuestionService,
     protected injector: Injector,
-    private quizService: QuizService,
-    private typesResponseService: TypesResponseService,
-    private categoryService: CategoryService
+    private modalService: BsModalService
   ) { 
     super(
       questionService,
       injector,
       new Question,
       Question.jsonFromQuestion,
-      ['questions'],
+      null,
       'Questão'
     )
   }
 
   ngOnInit() {
     this.buildForm();
-    this.loadQuizzes();
-    this.loadTypesResponse();
-    this.loadCategories();
 
     super.ngOnInit();
   }
 
   buildForm(){
     this.resourceForm = this.formBuilder.group({
-      title:['', Validators.required],
-      description:['', [Validators.required, Validators.minLength(5)]],
-      response:['', Validators.required],
-      options:['', [Validators.required, Validators.minLength(2)]],
-      points:['', [Validators.required, Validators.pattern(/^[1-9]\d*/g)]],
-      category_id: ['', Validators.required],
-      type_id:['', Validators.required],
-      quiz_id:['', Validators.required]
+      name:['', Validators.required],
+      points: ['', Validators.required],
+      type: ['', Validators.required],
+      multi: [''],
+      response: [''],
     })
   }
 
-  loadQuizzes(){
-    this.quizzes$ = this.quizService.getAll();
-  }
-
-  loadTypesResponse(){
-    this.typesResponse$ = this.typesResponseService.getAll();
-  }
-
-  loadCategories(){
+  
+ /* loadCategories(){
     this.categories$ = this.categoryService.getAll().pipe(
       catchError(() => this.actionForError)
     )
+  }*/
+
+  pushResponse(value: string){
+    if(value != '' && value != null){
+      this.responses.push(value);
+      this.resourceForm.get('multi').reset();
+    console.log(this.responses);
+    }
+    
+    this.questionService.getAll().subscribe(
+      dados => console.log(dados)
+      
+    )
+  }
+
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
+  }
+ 
+  confirm(): void {
+    this.modalRef.hide();
+  }
+ 
+  decline(): void {
+    this.modalRef.hide();
+  }
+
+
+  cadastro(){
+    this.confirm();
+    if(this.resourceForm.get('type').value == 'Múltipla Escolha'){
+      this.resourceForm.patchValue({
+        response:[this.responses]
+      })
+    }
+    
+    this.responses = [];
+    this.eventQuestion.emit(this.resourceForm.value);
+    this.resourceForm.reset();
+    
   }
 
 }

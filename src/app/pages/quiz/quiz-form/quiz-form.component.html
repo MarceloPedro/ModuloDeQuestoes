@@ -25,10 +25,40 @@
         <form class="" [formGroup]="resourceForm" (submit)="submitForm()">
 
             <div class="form-group">
-                <label for="title">Titulo</label>
+                <label for="name">Nome</label>
                 <input formControlName="title" [class.is-valid]="isTouchedAndValid('title')" [class.is-invalid]="isInvalidAndTouched('title')"
                         id="title" type="text" class="form-control" placeholder="Digite o titulo do questionário">
             </div>
+
+            <div class="form-group">
+                <label for="category">Disciplina</label>
+                <select formControlName="category_id" [class.is-valid]="isTouchedAndValid('category_id')" [class.is-invalid]="isInvalidAndTouched('category_id')"
+                        id="category" class="form-control">
+                        <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <app-question-form (eventQuestion)="cadastro($event)"></app-question-form>
+            </div>
+            
+            <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Resposta</th>
+                        <th scope="col">Pontos</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let question of questions">
+                        <td>{{question.name}}</td>
+                        <td>{{question.type}}</td>
+                        <td>{{question.response}}</td>
+                        <td>{{question.points}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
 
             <div class="form-group mt-2">
                 <button [disabled]="resourceForm.invalid" type="submit" class="btn btn-success float-right">Enviar</button>
@@ -39,3 +69,4 @@
     </div>
 
 </div>
+

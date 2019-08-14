@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { ModalQuestionComponent } from './components/modal-question/modal-question.component';
 
 @NgModule({
   declarations: [
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    ModalQuestionComponent
   ],
   imports: [
     CommonModule,
@@ -14,7 +16,8 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
   ],
   exports:[
     BreadcrumbComponent,
-    RouterModule
+    RouterModule,
+    ModalQuestionComponent
   ]
 })
 export class SharedModule { }
