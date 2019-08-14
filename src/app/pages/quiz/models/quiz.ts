@@ -1,8 +1,16 @@
-export class Quiz{
+import { Category } from '../../category/models/category';
+import { BaseResourceModel } from 'src/app/shared/models/base-resource-model';
+
+export class Quiz extends BaseResourceModel {
     constructor(
-        public id?: number,
-        public title?: string,
-        public questions?: Array<string>,
-        public category?: string,
-    ){}
+        public title?: string
+    ){
+        super();
+    }
+
+
+    static jsonFromQuiz(json: any): Quiz{
+        return Object.assign(new Quiz, json);
+    }
+
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api'
 import { ApiService } from './web-in-memory-api';
@@ -18,11 +19,12 @@ import { RouterModule } from '@angular/router';
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(ApiService),
     RouterModule,
+    BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
       preventDuplicates: false 
-    })
+    }),
   ],
   exports:[
     HeaderComponent

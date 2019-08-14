@@ -1,0 +1,49 @@
+<app-breadcrumb
+    [listaDeItens]="[
+        {
+            name: 'Lista de Questionários', link: '/quizzes', title: 'Questionários'
+        }
+    ]"
+></app-breadcrumb>
+
+<div class="mb-3">
+  <span class="float-letf h2">Formulario de questionário</span>
+  <button [routerLink]="['new']" type="button" class="btn btn-primary float-right">+ Novo questionário</button>
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        <small>Dados dos questionários</small>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="resources$ | async;else error">
+              <tr *ngFor="let quiz of resources$ | async">
+                <td> {{quiz.title}} </td>
+                <td><button [routerLink]="[quiz.id, 'edit']" type="button" class="btn btn-outline-warning">Editar</button></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+</div>
+
+<ng-template #error>
+  <div *ngIf="errors$ | async;else loading" class="alert alert-danger text-center" role="alert">
+     Erro ao tentar carregar as questões
+  </div>
+
+  <ng-template #loading>
+      <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+      </div>
+  </ng-template>
+</ng-template>

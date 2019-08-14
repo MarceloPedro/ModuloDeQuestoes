@@ -1,13 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { QuizRoutingModule } from './quiz-routing.module';
+import { QuizListComponent } from './quiz-list/quiz-list.component';
+import { QuizFormComponent } from './quiz-form/quiz-form.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    QuizListComponent, 
+    QuizFormComponent
+  ],
   imports: [
     CommonModule,
-    QuizRoutingModule
+    QuizRoutingModule,
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class QuizModule { }
