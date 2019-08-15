@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { BaseResourceList } from 'src/app/shared/components/base-resource-list/base-resource-list';
 import { Quiz } from '../models/quiz';
 import { QuizService } from '../services/quiz.service';
@@ -8,7 +8,7 @@ import { QuizService } from '../services/quiz.service';
   templateUrl: './quiz-list.component.html',
   styleUrls: ['./quiz-list.component.css']
 })
-export class QuizListComponent extends BaseResourceList<Quiz> implements OnInit {
+export class QuizListComponent extends BaseResourceList<Quiz>{
 
   constructor(
     protected quizService: QuizService,
@@ -18,14 +18,6 @@ export class QuizListComponent extends BaseResourceList<Quiz> implements OnInit 
       quizService,
       injector
     )
-   }
-
-   ngOnInit(){
-     this.quizService.getAll().subscribe(
-       dados => console.log(dados)
-       
-     )
-     super.ngOnInit();
    }
 
 }

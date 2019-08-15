@@ -1,11 +1,13 @@
 import { Component, OnInit, Injector } from '@angular/core';
+import { Validators } from '@angular/forms';
+
+import { Observable } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 import { BaseResourceForm } from 'src/app/shared/components/base-resource-form/base-resource-form';
 import { Quiz } from '../models/quiz';
 import { QuizService } from '../services/quiz.service';
-import { Validators } from '@angular/forms';
 import { CategoryService } from '../../category/services/category.service';
-import { Observable } from 'rxjs';
 import { Category } from '../../category/models/category';
 import { Question } from '../../question/models/question';
 
@@ -36,6 +38,7 @@ export class QuizFormComponent extends BaseResourceForm<Quiz> implements OnInit{
 
   ngOnInit(){
     this.loadCategories();
+
     super.ngOnInit();
   }
 
@@ -48,24 +51,35 @@ export class QuizFormComponent extends BaseResourceForm<Quiz> implements OnInit{
   }
 
   loadCategories(){
-    this.categories$ = this.categoryService.getAll();
+    this.categories$ = this.categoryService.getAll().pipe(
+      catchError(() => this.actionForError)
+    )
+  }
+
+  loadForm(){
+    if(this.setAction == 'edit'){
+        this.route.paramMap.pipe(
+          switchMap(params => this.resourceService.getById(+params.get('id')))
+        ).subscribe(
+          resource => {
+            this.resource = resource;
+            this.resourceForm.patchValue(this.resource);
+            this.questions = this.resource.questions;
+          },
+          error => console.log(error)
+          
+        )
+    }
   }
 
 
-  cadastro(evento){
-    console.log(evento);
-    this.questions.push(Object.assign(new Question, evento));
-    this.resourceForm.patchValue({
-      questions: this.questions
-    })
-    
-  }
-
-  register(){
-    super.register()
-    console.log(this.resourceForm.value);
-    console.log(this.questions);
-    
+  pushQuestions(evento: any){
+    if(evento != '' || evento != null){
+      this.questions.push(Object.assign(new Question, evento));
+      this.resourceForm.patchValue({
+        questions: this.questions
+      })
+    } 
   }
 
 }

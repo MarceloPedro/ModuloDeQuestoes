@@ -24,7 +24,10 @@ export abstract class BaseResourceList <T extends BaseResourceModel> implements 
     this.loadResource();
   }
 
-  loadResource(){
+ 
+ //PROTECTED METHODS
+ 
+  protected loadResource(){
     this.resources$ = this.resourceService.getAll()
       .pipe(
         catchError(error => {
@@ -36,7 +39,7 @@ export abstract class BaseResourceList <T extends BaseResourceModel> implements 
     
   }
 
-  actionForError(msg: string){
+  protected actionForError(msg: string){
     this.toastr.error(msg);
   }
 

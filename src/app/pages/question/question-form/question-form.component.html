@@ -11,7 +11,7 @@
     </div>
 
     <div class="modal-body">
-        <form [formGroup]="resourceForm" (submit)="cadastro()" >
+        <form [formGroup]="resourceForm" (submit)="pushQuestions()" >
 
             <div class="form-group">
               <label for="name" class="col-form-label">Nome</label>
@@ -33,9 +33,9 @@
             </div>
             
               <div *ngIf="resourceForm.get('type').value == 'Múltipla Escolha'" class="form-group">
-                <input formControlName="response" *ngFor="let response of responses" [value]="response" type="text" class="form-control mt-1" placeholder="Digite a resposta">
-                <input formControlName="multi" type="text" class="form-control mr-4 mt-1" placeholder="Primeira resposta">
-                <button (click)="pushResponse(resourceForm.get('multi').value)" type="button" class="btn btn-primary mt-2">+ Adicionar Mais Respostas</button>
+                <input disabled *ngFor="let response of responses" [value]="response" type="text" class="form-control mt-1" placeholder="Digite a resposta">
+                <input formControlName="response" type="text" class="form-control mr-4 mt-1" placeholder="Primeira resposta">
+                <button (click)="pushResponse(resourceForm.get('response'))" type="button" class="btn btn-primary mt-2">+ Adicionar Mais Respostas</button>
               </div>
         
               <div *ngIf="resourceForm.get('type').value == 'Seleção'" class="form-group">

@@ -38,24 +38,24 @@
                 </select>
             </div>
             <div class="form-group">
-                <app-question-form (eventQuestion)="cadastro($event)"></app-question-form>
+                <app-question-form (eventQuestion)="pushQuestions($event)"></app-question-form>
             </div>
             
             <table class="table table-striped">
                     <thead>
                       <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Resposta</th>
-                        <th scope="col">Pontos</th>
+                        <th class="text-left" scope="col">Nome</th>
+                        <th class="text-left" scope="col">Tipo</th>
+                        <th class="text-left" scope="col">Resposta</th>
+                        <th class="text-left" scope="col">Pontos</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let question of questions">
-                        <td>{{question.name}}</td>
-                        <td>{{question.type}}</td>
-                        <td>{{question.response}}</td>
-                        <td>{{question.points}}</td>
+                        <td class="text-left">{{question.name}}</td>
+                        <td class="text-left">{{question.type}}</td>
+                        <td class="text-left">{{question.response}}</td>
+                        <td class="text-left">{{question.points}}</td>
                       </tr>
                     </tbody>
                   </table>

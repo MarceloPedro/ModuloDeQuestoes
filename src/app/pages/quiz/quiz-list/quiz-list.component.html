@@ -23,16 +23,20 @@
               <tr>
                 <th scope="col">Titulo</th>
                 <th scope="col">Disciplina</th>
-                <th scope="col" class="text-center">Questões</th>
-                <th scope="col" class="text-center">Respostas</th>
+                <th scope="col" class="text-left">Questões</th>
+                <th scope="col" class="text-left">Tipo</th>
+                <th scope="col" class="text-left">Respostas</th>
+                <th scope="col" class="text-center">Ação</th>
               </tr>
             </thead>
             <tbody *ngIf="resources$ | async;else error">
               <tr *ngFor="let quiz of resources$ | async">
                 <td> {{quiz.title}} </td>
                 <td> {{quiz.category.name}} </td>
-                <td class="text-center"> <small *ngFor="let question of quiz.questions"><i class="fas fa-circle fa-xs"></i> {{question.name}} </small></td>
-                <td class="text-center"> <small *ngFor="let question of quiz.questions"><i class="far fa-circle fa-xs"></i> {{question.response}} </small></td>
+                <td class="text-left"> <small *ngFor="let question of quiz.questions"><i class="fas fa-circle fa-xs"></i> {{question.name}}<br></small></td>
+                <td class="text-left"> <small *ngFor="let question of quiz.questions"><i class="fas fa-circle fa-xs"></i> {{question.type}}<br></small></td>
+                <td class="text-left"> <small *ngFor="let question of quiz.questions"><i class="far fa-circle fa-xs"></i> {{question.response}}<br></small></td>
+                <td class="text-center"><button [routerLink]="[quiz.id, 'edit']" type="button" class="btn btn-outline-warning text-center">Editar</button></td>
               </tr>
             </tbody>
           </table>

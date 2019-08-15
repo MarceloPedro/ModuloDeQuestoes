@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { flatMap, catchError, map } from 'rxjs/operators'
+import { flatMap, catchError} from 'rxjs/operators'
 
 import { BaseResourceService } from 'src/app/shared/services/base-resource-service';
 import { Quiz } from '../models/quiz';
@@ -26,7 +26,7 @@ export class QuizService extends BaseResourceService<Quiz> {
       .pipe(
         flatMap(category => {
           quiz.category = category
-            return super.create(quiz)                
+            return super.create(quiz)              
           })
       )
   }
@@ -37,7 +37,7 @@ export class QuizService extends BaseResourceService<Quiz> {
       .pipe(
         flatMap(category => {
           quiz.category = category
-            return super.update(quiz)                
+            return super.update(quiz)              
           })
       )
   }

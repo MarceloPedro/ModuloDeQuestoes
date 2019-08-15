@@ -48,14 +48,6 @@ export abstract class BaseResourceForm <T extends BaseResourceModel> implements 
     }
     return this.register();
   } 
-
-
-  actionForm(){
-    if(this.route.snapshot.url[0].path == 'new'){
-        return this.setAction = 'new';
-    }
-    return this.setAction = 'edit';
-  }
   
   loadForm(){
     if(this.setAction == 'edit'){
@@ -109,7 +101,14 @@ export abstract class BaseResourceForm <T extends BaseResourceModel> implements 
   }
 
 
-  //PRIVATE METHODS
+  //PROTECTED METHODS
+
+  protected actionForm(){
+    if(this.route.snapshot.url[0].path == 'new'){
+        return this.setAction = 'new';
+    }
+    return this.setAction = 'edit';
+  }
 
   protected actionForSuccess(msg: string, url: string[]){
     this.toastr.success(msg);

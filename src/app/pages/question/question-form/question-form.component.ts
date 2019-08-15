@@ -1,18 +1,9 @@
 import { Component, OnInit, Injector, TemplateRef, Output, EventEmitter } from '@angular/core';
-import { Validators } from '@angular/forms';
-
-import { Observable } from 'rxjs';
+import { Validators, FormControl } from '@angular/forms';
 
 import { BaseResourceForm } from 'src/app/shared/components/base-resource-form/base-resource-form';
 import { Question } from '../models/question';
 import { QuestionService } from '../services/question.service';
-import { QuizService } from '../../quiz/services/quiz.service';
-import { Quiz } from '../../quiz/models/quiz';
-import { TypesResponseService } from 'src/app/shared/services/types-responses.service';
-import { TypesResponse } from 'src/app/shared/models/types-response';
-import { CategoryService } from '../../category/services/category.service';
-import { Category } from '../../category/models/category';
-import { catchError } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -55,29 +46,18 @@ export class QuestionFormComponent extends BaseResourceForm<Question> implements
       name:['', Validators.required],
       points: ['', Validators.required],
       type: ['', Validators.required],
-      multi: [''],
-      response: [''],
+      response: ['', Validators.required],
     })
   }
 
-  
- /* loadCategories(){
-    this.categories$ = this.categoryService.getAll().pipe(
-      catchError(() => this.actionForError)
-    )
-  }*/
+  loadForm(){}
 
-  pushResponse(value: string){
-    if(value != '' && value != null){
-      this.responses.push(value);
-      this.resourceForm.get('multi').reset();
-    console.log(this.responses);
+  pushResponse(form: FormControl){
+    if(form.value != '' || form.value != null){
+      this.responses.push(form.value);
+      form.reset();
+      form.setValidators(null);
     }
-    
-    this.questionService.getAll().subscribe(
-      dados => console.log(dados)
-      
-    )
   }
 
 
@@ -91,10 +71,11 @@ export class QuestionFormComponent extends BaseResourceForm<Question> implements
  
   decline(): void {
     this.modalRef.hide();
+    this.resourceForm.reset();
   }
 
 
-  cadastro(){
+  pushQuestions(){
     this.confirm();
     if(this.resourceForm.get('type').value == 'Múltipla Escolha'){
       this.resourceForm.patchValue({
@@ -105,7 +86,6 @@ export class QuestionFormComponent extends BaseResourceForm<Question> implements
     this.responses = [];
     this.eventQuestion.emit(this.resourceForm.value);
     this.resourceForm.reset();
-    
   }
 
 }
