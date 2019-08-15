@@ -7,16 +7,13 @@ import { Breadcrumb } from '../../models/breadcrumb';
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.css']
 })
-export class BreadcrumbComponent implements OnInit {
+export class BreadcrumbComponent {
 
   @Input() listaDeItens: Array<Breadcrumb> = [
     { name: '', link:'', title: '' }
   ];
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
   isLast(item: Breadcrumb){
     const index = this.listaDeItens.indexOf(item);

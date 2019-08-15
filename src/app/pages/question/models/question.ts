@@ -8,8 +8,7 @@ export class Question{
         public name?: string,
         public type?: string,
         public response?: string[],
-        public points?: number,
-        public quiz_id?: number,
+        public points?: number
     ){}
 
     static jsonFromQuestion(json: any): Question{

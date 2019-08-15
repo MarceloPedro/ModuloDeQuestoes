@@ -2,8 +2,8 @@ import { OnInit, Injector } from '@angular/core';
 
 import { Observable, Subject, EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
 
+import { ToastrService } from 'ngx-toastr';
 import { BaseResourceModel } from '../../models/base-resource-model';
 import { BaseResourceService } from '../../services/base-resource-service';
 
@@ -24,7 +24,10 @@ export abstract class BaseResourceList <T extends BaseResourceModel> implements 
     this.loadResource();
   }
 
-  loadResource(){
+  
+//PROTECTED METHODS
+
+protected loadResource(){
     this.resources$ = this.resourceService.getAll()
       .pipe(
         catchError(error => {
@@ -36,7 +39,7 @@ export abstract class BaseResourceList <T extends BaseResourceModel> implements 
     
   }
 
-  actionForError(msg: string){
+ protected actionForError(msg: string){
     this.toastr.error(msg);
   }
 

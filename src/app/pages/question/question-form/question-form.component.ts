@@ -1,18 +1,9 @@
 import { Component, OnInit, Injector, TemplateRef, Output, EventEmitter } from '@angular/core';
-import { Validators } from '@angular/forms';
-
-import { Observable } from 'rxjs';
+import { Validators, FormControl } from '@angular/forms';
 
 import { BaseResourceForm } from 'src/app/shared/components/base-resource-form/base-resource-form';
 import { Question } from '../models/question';
 import { QuestionService } from '../services/question.service';
-import { QuizService } from '../../quiz/services/quiz.service';
-import { Quiz } from '../../quiz/models/quiz';
-import { TypesResponseService } from 'src/app/shared/services/types-responses.service';
-import { TypesResponse } from 'src/app/shared/models/types-response';
-import { CategoryService } from '../../category/services/category.service';
-import { Category } from '../../category/models/category';
-import { catchError } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -55,40 +46,17 @@ export class QuestionFormComponent extends BaseResourceForm<Question> implements
       name:['', Validators.required],
       points: ['', Validators.required],
       type: ['', Validators.required],
-      multi: [''],
       response: [''],
     })
   }
 
-  
- /* loadCategories(){
-    this.categories$ = this.categoryService.getAll().pipe(
-      catchError(() => this.actionForError)
-    )
-  }*/
-
-  pushResponse(value: string){
-    if(value != '' && value != null){
-      this.responses.push(value);
-      this.resourceForm.get('multi').reset();
-    console.log(this.responses);
+  pushResponse(form: FormControl){
+    if(form.value != '' || form.value != null){
+      this.responses.push(form.value);
+      form.reset();
     }
-    
-    this.questionService.getAll().subscribe(
-      dados => console.log(dados)
-      
-    )
   }
 
-
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
-  }
- 
-  confirm(): void {
-    this.modalRef.hide();
-  }
- 
   decline(): void {
     this.modalRef.hide();
   }
@@ -107,5 +75,16 @@ export class QuestionFormComponent extends BaseResourceForm<Question> implements
     this.resourceForm.reset();
     
   }
+  
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
+  }
+ 
+  //PRIVATE METHODS
+
+ private confirm(): void {
+    this.modalRef.hide();
+  }
+ 
 
 }

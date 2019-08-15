@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { switchMap, catchError } from 'rxjs/operators';
 
-
 import { ToastrService } from 'ngx-toastr';
 import { BaseResourceModel } from '../../models/base-resource-model';
 import { BaseResourceService } from '../../services/base-resource-service';
@@ -109,7 +108,7 @@ export abstract class BaseResourceForm <T extends BaseResourceModel> implements 
   }
 
 
-  //PRIVATE METHODS
+  //PROTECTED METHODS
 
   protected actionForSuccess(msg: string, url: string[]){
     this.toastr.success(msg);

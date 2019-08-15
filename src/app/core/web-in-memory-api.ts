@@ -14,13 +14,13 @@ export class ApiService implements InMemoryDbService{
         ];
         
         let questions: Question[] = [
-            {id: 1, name:'Nome', response: ['Vaca'], points: 10, type: 'seleção'},
-            {id: 2, name:'Nome 2', response: ['Vaca 2'], points: 10, type: 'seleção'}
+            {id: 1, name:'Questão 1', response: ['Resposta 1'], points: 10, type: 'seleção'},
+            {id: 2, name:'Questão 2', response: ['Resposta 2'], points: 10, type: 'seleção'}
                  
         ];
 
         let quizzes: Quiz[] = [
-            {id: 1, title: 'Animais', category_id: categories[0].id, category: categories[0], questions: [questions[0], questions[1]]},
+            {id: 1, title: 'Prova de Matemática', category_id: categories[0].id, category: categories[0], questions: [questions[0], questions[1]]},
 
         ];
         
