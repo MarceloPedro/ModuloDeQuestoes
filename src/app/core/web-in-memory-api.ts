@@ -1,7 +1,7 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api'
 import { Category } from '../pages/category/models/category';
 import { Quiz } from '../pages/quiz/models/quiz';
-import { Question } from '../pages/question/models/question';
+import { Question } from '../shared/components/question/models/question';
 
 export class ApiService implements InMemoryDbService{
     createDb(){

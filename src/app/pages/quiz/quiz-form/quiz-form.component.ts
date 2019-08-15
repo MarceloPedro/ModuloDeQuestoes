@@ -9,7 +9,7 @@ import { Quiz } from '../models/quiz';
 import { QuizService } from '../services/quiz.service';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category';
-import { Question } from '../../question/models/question';
+import { Question } from 'src/app/shared/components/question/models/question';
 
 @Component({
   selector: 'app-quiz-form',

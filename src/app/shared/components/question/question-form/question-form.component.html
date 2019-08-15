@@ -26,7 +26,7 @@
         
             <div class="form-group">
                 <label for="type" class="col-form-label">Tipo de questão</label>
-                <select formControlName="type" [class.is-valid]="isTouchedAndValid('type')" [class.is-invalid]="isInvalidAndTouched('type')"
+                <select (click)="setValidator(resourceForm.get('response'))" formControlName="type" [class.is-valid]="isTouchedAndValid('type')" [class.is-invalid]="isInvalidAndTouched('type')"
                     id="type" class="form-control">
                     <option *ngFor="let type of types" [value]="type">{{type}}</option>
                 </select>

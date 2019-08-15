@@ -1,6 +1,6 @@
 import { BaseResourceModel } from 'src/app/shared/models/base-resource-model';
-import { Question } from '../../question/models/question';
 import { Category } from '../../category/models/category';
+import { Question } from 'src/app/shared/components/question/models/question';
 
 export class Quiz extends BaseResourceModel {
     constructor(

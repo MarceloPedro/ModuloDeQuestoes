@@ -52,6 +52,14 @@ export class QuestionFormComponent extends BaseResourceForm<Question> implements
 
   loadForm(){}
 
+  setValidator(form: FormControl){
+    if(form != null){
+      form.reset();
+      form.setValidators(Validators.required);
+      this.responses = [];
+    }
+  }
+
   pushResponse(form: FormControl){
     if(form.value != '' || form.value != null){
       this.responses.push(form.value);
