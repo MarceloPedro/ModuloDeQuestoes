@@ -19,6 +19,7 @@ export class QuestionFormComponent extends BaseResourceForm<Question> implements
 
   types: string[] = ['Múltipla Escolha', 'Seleção', 'Avaliação com Estrelas'];
   responses: string[] = [];
+  stars: Array<number> = [1, 2, 3, 4, 5];
 
   constructor(
     protected questionService: QuestionService,
@@ -46,28 +47,19 @@ export class QuestionFormComponent extends BaseResourceForm<Question> implements
       name:['', Validators.required],
       points: ['', Validators.required],
       type: ['', Validators.required],
-      response: ['', Validators.required],
+      response: ['', Validators.required]
+      
     })
   }
 
   loadForm(){}
 
-  setValidator(form: FormControl){
-    if(form != null){
-      form.reset();
-      form.setValidators(Validators.required);
-      this.responses = [];
-    }
-  }
-
   pushResponse(form: FormControl){
     if(form.value != '' || form.value != null){
       this.responses.push(form.value);
       form.reset();
-      form.setValidators(null);
     }
   }
-
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
@@ -82,15 +74,22 @@ export class QuestionFormComponent extends BaseResourceForm<Question> implements
     this.resourceForm.reset();
   }
 
+  resetForm(form: FormControl){
+    if(form != null){
+      form.reset();
+      this.responses = [];
+    }
+  }
 
   pushQuestions(){
     this.confirm();
-    if(this.resourceForm.get('type').value == 'Múltipla Escolha'){
+   if(this.resourceForm.get('type').value == this.types[0] && this.responses.length > 0){
+      this.responses.push(this.resourceForm.get('response').value);
       this.resourceForm.patchValue({
-        response:[this.responses]
-      })
-    }
-    
+      response: this.responses
+    })
+   }
+      
     this.responses = [];
     this.eventQuestion.emit(this.resourceForm.value);
     this.resourceForm.reset();
