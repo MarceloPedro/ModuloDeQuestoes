@@ -21,8 +21,8 @@ export class CategoryFormComponent extends BaseResourceForm<Category> {
       injector,
       new Category,
       Category.jsonFromCategory,
-      ['categories'],
-      'Categoria'
+      ['disciplinas'],
+      'Disciplina'
     )
    }
   

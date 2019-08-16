@@ -1,6 +1,4 @@
 import { Injectable, Injector } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
 
 import { Category } from '../models/category';
 import { BaseResourceService } from 'src/app/shared/services/base-resource-service';
