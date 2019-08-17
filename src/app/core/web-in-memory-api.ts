@@ -24,7 +24,7 @@ export class ApiService implements InMemoryDbService{
         ];
 
         let responses: Response[] = [
-            {id: 1, name: 'Marcelo', response: ['false', '5', 'Resposta 1'], points: 40, quiz_id: quizzes[0].id, quiz: quizzes[0]}
+            {id: 1, name: 'Marcelo', response: ['Falso', '5', 'Resposta 1'], points: 40, quiz_id: quizzes[0].id, quiz: quizzes[0]}
         ]
         
         return {categories, quizzes, questions, responses}
