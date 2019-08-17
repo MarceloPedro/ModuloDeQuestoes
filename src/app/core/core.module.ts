@@ -9,10 +9,12 @@ import { ApiService } from './web-in-memory-api';
 import { ToastrModule } from 'ngx-toastr';
 import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,

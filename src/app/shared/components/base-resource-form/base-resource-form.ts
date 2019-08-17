@@ -52,13 +52,16 @@ export abstract class BaseResourceForm <T extends BaseResourceModel> implements 
   loadForm(){
     if(this.setAction == 'edit'){
         this.route.paramMap.pipe(
-          switchMap(params => this.resourceService.getById(+params.get('id')))
+          switchMap(params => this.resourceService.getById(+params.get('id'))) 
         ).subscribe(
           resource => {
             this.resource = resource
             this.resourceForm.patchValue(this.resource)
           },
-          error => console.log(error)
+          error => {
+            this.actionForError(`Erro ao tentar carregar a ${this.txtName}`)
+            catchError(error)
+          }
           
         )
     }

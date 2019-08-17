@@ -4,10 +4,12 @@ import { RouterModule } from '@angular/router';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { QuestionModule } from './components/question/question.module';
+import { NumerForArrayPipe } from './pipes/numer-for-array.pipe';
 
 @NgModule({
   declarations: [
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    NumerForArrayPipe
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { QuestionModule } from './components/question/question.module';
   exports:[
     BreadcrumbComponent,
     RouterModule,
-    QuestionModule
+    QuestionModule,
+    NumerForArrayPipe
   ]
 })
 export class SharedModule { }

@@ -1,1 +1,71 @@
 <h1 class="h1 text-center mt-5">Bem-Vindo</h1>
+
+<div class="card">
+
+    <div class="card-header">
+        <small>Dados dos questionários</small>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Disciplina</th>
+                <th scope="col" class="text-center">Questões</th>
+                <th scope="col" class="text-center">Ação</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="resources$ | async;else error">
+              <tr *ngFor="let quiz of resources$ | async">
+                <td> {{quiz.title}} </td>
+                <td> {{quiz.category.name}} </td>
+                <td class="text-center">{{quiz.questions.length}}</td>
+                <td class="text-center"><button [routerLink]="['test', quiz.id]" type="button" class="btn btn-outline-primary text-center">Iniciar</button></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        <small>Dados das respostas</small>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Respostas</th>
+                <th scope="col" class="text-center">Pontos</th>
+                <th scope="col" class="text-center">Questionario</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="responses$ | async;else error">
+              <tr *ngFor="let response of responses$ | async">
+                <td> {{response.name}} </td>
+                <td> <small *ngFor="let res of response.response">{{res}}<br></small></td>
+                <td class="text-center">{{response.points}}</td>
+                <td class="text-center">{{response.quiz.title}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+</div>
+
+<ng-template #error>
+  <div *ngIf="errors$ | async;else loading" class="alert alert-danger text-center" role="alert">
+     Erro ao tentar carregar as questões
+  </div>
+
+  <ng-template #loading>
+      <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+      </div>
+  </ng-template>
+</ng-template>
