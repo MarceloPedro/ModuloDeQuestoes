@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { switchMap, catchError } from 'rxjs/operators';
 
 import { QuizService } from '../../quiz/services/quiz.service';
-import { switchMap } from 'rxjs/operators';
-
 import { Quiz } from '../../quiz/models/quiz';
 import { Question } from 'src/app/shared/components/question/models/question';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ResponseService } from 'src/app/shared/services/response.service';
 import { Response } from 'src/app/shared/models/response';
 
@@ -57,7 +57,8 @@ export class StartQuizComponent implements OnInit {
         this.quiz = quiz
         this.questions = quiz.questions
         this.question = this.questions[0];
-      }
+      },
+      error => catchError(error)
     )
   }
 
@@ -75,18 +76,16 @@ export class StartQuizComponent implements OnInit {
   }
 
   register(){
-  this.testForm.patchValue({
-    response: this.responses,
-    quiz_id: this.quiz.id,
-    points: this.points
+    this.testForm.patchValue({
+      response: this.responses,
+      quiz_id: this.quiz.id,
+      points: this.points
   })
-    
-    
     this.responseService.create(this.testForm.value).subscribe(
       () =>this.router.navigate([''])
     )
-    
-    
   }
+
+
 
 }

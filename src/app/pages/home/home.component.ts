@@ -1,10 +1,11 @@
 import { Component, OnInit, Injector } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { BaseResourceList } from 'src/app/shared/components/base-resource-list/base-resource-list';
 import { Quiz } from '../quiz/models/quiz';
 import { QuizService } from '../quiz/services/quiz.service';
 import { ResponseService } from 'src/app/shared/services/response.service';
-import { Observable } from 'rxjs';
 import { Response } from 'src/app/shared/models/response';
 
 @Component({
