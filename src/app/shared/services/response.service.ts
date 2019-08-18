@@ -20,14 +20,11 @@ export class ResponseService extends BaseResourceService<Response>{
     )
   }
 
-  create(response: Response): Observable<Response>{
-    console.log(response);
-    
+  create(response: Response): Observable<Response>{    
     return this.quizService.getById(response.quiz_id)
     .pipe(
       flatMap(quiz => {
         response.quiz = quiz
-        console.log(response);
           return super.create(response);
         })
       )
